@@ -22,7 +22,7 @@ module.exports = {
         storeId,
         data: {
           product: {
-            fulfillment
+            fulfillment = {}
           }
         }
       }

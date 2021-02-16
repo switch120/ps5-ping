@@ -13,6 +13,8 @@ module.exports = {
     // check to see if we've already notified within the cooldown window - if so, resolve without doing anything
     if (lastNotify && ((now - lastNotify) < notify_cooldown_ms)) return Promise.resolve(true);
 
+    console.log(`SMS Notify: ${message}`);
+
     // Create promise and SNS service object
     return new SNS({ 
       apiVersion: '2010-03-31' 

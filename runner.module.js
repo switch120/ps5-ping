@@ -1,22 +1,22 @@
-const { stores, products, api_url } = require("./config.module");
+const { target, walmart } = require("./config.module");
 const axios = require("axios");
 
 module.exports = {
-  runChecks: () => {
+  runTargetChecks: () => {
     // use flatMap so we can loop over the internal stores, producing an array of promises that will get flattened together
     return Promise.all(
-      products.flatMap(product => {
+      target.products.flatMap(product => {
         // note: not using implicit return here for readability
-        return stores.map(store => {
+        return target.stores.map(store => {
           console.log(`Checking Product: ${product} at Store: ${store}`);
-          return axios.get(`${api_url}&tcin=${product}&store_positions_store_id=${store}&has_store_positions_store_id=true&pricing_store_id=${store}`).then(resp => {
+          return axios.get(`${target.api_url}&tcin=${product}&store_positions_store_id=${store}&has_store_positions_store_id=true&pricing_store_id=${store}`).then(resp => {
             // ammend this to the data so we can reference it later
             resp.data.storeId = store;
             return resp;
           });
         });
       })
-    // we only care about the fulfillment nested attribute; map to simpler array with destructuring / implicit return
+      // we only care about the fulfillment nested attribute; map to simpler array with destructuring / implicit return
     ).then(results => results.map(({
       data: {
         storeId,
@@ -26,9 +26,21 @@ module.exports = {
           }
         }
       }
-    }) => ({ 
+    }) => ({
       fulfillment,
       storeId
     })));
+  },
+  runWalmartCheck: () => {
+    return Promise.all(
+      walmart.products.map(product => {
+        console.log(`Checking Walmart product: ${product} (${walmart.pdp_url}/${product})`);
+        return axios.get(`${walmart.pdp_url}/${product}`, { 
+          headers: { 
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36' 
+          }  
+        }).then(({ data }) => !data.match(/<b>out of stock<\/b>/).length);
+      })
+    ).then(results => results.filter(r => r));
   }
 };

@@ -44,8 +44,8 @@ module.exports = {
           }  
         }).catch(err => {
           console.log(`Error fetching Walmart product. Bailing out. Err: ${err}`);
-          return null;
-        }).then(({ data }) => data && !data.match(/<b>out of stock<\/b>/).length);
+          return { data: null };
+        }).then(({ data }) => data && !data.match(/<b>out of stock<\/b>/));
       })
     ).then(results => results.filter(r => r));
   }

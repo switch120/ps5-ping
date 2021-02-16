@@ -1,5 +1,10 @@
 # ps5-ping
-Periodically check for PS5 Availability at local Target stores
+Periodically check for PS5 Availability at local Target stores.
+
+# Notifications
+Notifies via SMS using AWS SNS, available on the AWS free tier.
+* Notifies when detecting online availability *somewhere*
+* Notifies with specific store Ids if found in a configured store
 
 # Setup
 After cloning `npm install` and *copy the `.env.example` file to `.env` and setup the variables*. Failure to do this will cause the app to fail.

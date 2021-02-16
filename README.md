@@ -1,5 +1,6 @@
-# ps5-ping
-Periodically check for PS5 Availability at local Target stores.
+# PS5-ping
+Target gets intermittent drops of product, and each store can only sell consoles online when in high demand. Use this app to Periodically check for PS5 Availability at local Target stores 
+and notify by SMS if any are found.
 
 # Notifications
 Notifies via SMS using AWS SNS, available on the AWS free tier.
@@ -23,6 +24,8 @@ After cloning `npm install` and *copy the `.env.example` file to `.env` and setu
 
 ## Running
 `node main`
+
+Application output indicates outcome for each heartbeat, and the app runs in perpetuity until killed with `ctrl+c`
 
 # Disclaimer
 Use this code as your own discretion. It uses public calls to the Target API that are not restricted.

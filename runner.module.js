@@ -13,11 +13,14 @@ module.exports = {
             // ammend this to the data so we can reference it later
             resp.data.storeId = store;
             return resp;
+          }).catch(err => {
+            console.log(`Error loading Target product data. Bailing out. Err: ${err}`);
+            return null;
           });
         });
       })
       // we only care about the fulfillment nested attribute; map to simpler array with destructuring / implicit return
-    ).then(results => results.map(({
+    ).then(results => results.filter(r => !!r).map(({
       data: {
         storeId,
         data: {
@@ -39,7 +42,10 @@ module.exports = {
           headers: { 
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36' 
           }  
-        }).then(({ data }) => !data.match(/<b>out of stock<\/b>/).length);
+        }).catch(err => {
+          console.log(`Error fetching Walmart product. Bailing out. Err: ${err}`);
+          return null;
+        }).then(({ data }) => data && !data.match(/<b>out of stock<\/b>/).length);
       })
     ).then(results => results.filter(r => r));
   }

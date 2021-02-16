@@ -15,6 +15,8 @@ module.exports = {
 
     console.log(`SMS Notify: ${message}`);
 
+    lastNotify = now;
+
     // Create promise and SNS service object
     return new SNS({ 
       apiVersion: '2010-03-31' 

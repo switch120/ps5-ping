@@ -7,10 +7,10 @@ function heartbeat(now = false) {
     console.log("Starting heartbeat product check ...");
 
     const found = await runChecks();
-    const anywhere = found.filter(({ fulfillment: { is_out_of_stock_in_all_store_locations } }) => !is_out_of_stock_in_all_store_locations);
+    const anywhere = found.find(({ fulfillment: { is_out_of_stock_in_all_store_locations } }) => !is_out_of_stock_in_all_store_locations);
     const stores = found.filter(({ fulfillment: { shipping_options } }) => shipping_options.availability_status == available_code);
 
-    if (!stores.length && anywhere.length) {
+    if (!stores.length && anywhere) {
       console.log("Available Online somewhere ...");
       await notify("Units available online!");
     }

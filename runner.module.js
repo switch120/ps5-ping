@@ -45,7 +45,7 @@ module.exports = {
         }).catch(err => {
           console.log(`Error fetching Walmart product. Bailing out. Err: ${err}`);
           return { data: null };
-        }).then(({ data }) => data && !data.match(/<b>out of stock<\/b>/));
+        }).then(({ data }) => data && !data.match(/Out of Stock/i));
       })
     ).then(results => results.filter(r => r));
   },
@@ -54,14 +54,6 @@ module.exports = {
       bestbuy.products.map(product => {
         console.log(`Checking Best Buy product: ${product} (${bestbuy.pdp_url}/${product})`);
         return axios.get(`${bestbuy.pdp_url}/${product}`, { 
-          // headers: { 
-          //   'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 11_1_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36', 
-          //   'Content-Type': 'text/html;charset=UTF-8',
-          //   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
-          //   'Set-Cookie': 'ltc=%20; expires=Thu, 25 Feb 2021 14:31:37 GMT; path=/; domain=.bestbuy.com;',
-          //   "Cache-Control": "no-cache",
-          //   "Postman-Token": "42e6c291-9a09-c29f-f28f-11872e2490a5"
-          // },
           timeout: 3000,
           withCredentials: true  
         }).catch(err => {

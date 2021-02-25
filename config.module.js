@@ -14,6 +14,10 @@ module.exports = {
     pdp_url: process.env.WALMART_PDP_URL,
     products: processArray(process.env.WALMART_PRODUCTS)
   },
+  bestbuy: { 
+    pdp_url: process.env.BESTBUY_PDP_URL,
+    products: processArray(process.env.BESTBUY_PRODUCTS)
+  },
   heartbeat_ms: process.env.HEARTBEAT_MS || 15000,
   notify_cooldown_ms: process.env.NOTIFY_COOLDOWN_MS || 300000,
   sms_number: process.env.SMS_NUMBER || "",

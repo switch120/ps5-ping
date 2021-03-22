@@ -1,4 +1,4 @@
-# PS5-ping
+# PS5-ping -----
 Retailers get intermittent drops of product, and each store can only sell consoles online when in high demand. Use this app to periodically check for PS5 Availability at local retailers 
 and notify by SMS if any are found.
 
